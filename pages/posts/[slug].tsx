@@ -1,5 +1,7 @@
+import PostContent from "../../components/posts/post-detail/post-content";
+
 const PostDetail: React.FC = () => {
-  return <div>PostDetail Page</div>;
+  return <PostContent />;
 };
 
 export default PostDetail;
