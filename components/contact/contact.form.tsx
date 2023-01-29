@@ -1,9 +1,12 @@
 import classes from "./contact-form.module.css";
-import { useRef } from "react";
+import { useRef, useContext } from "react";
+import NotificationContext from "../../store/notification-context";
 const ContactForm: React.FC = () => {
   const emailRef = useRef<HTMLInputElement>(null);
   const nameRef = useRef<HTMLInputElement>(null);
   const messageRef = useRef<HTMLTextAreaElement>(null);
+
+  const notificationCtx = useContext(NotificationContext);
 
   const sendMessageHandler = (event: any) => {
     event.preventDefault();
@@ -11,6 +14,12 @@ const ContactForm: React.FC = () => {
     const enteredEmail = emailRef.current?.value;
     const enteredName = nameRef.current?.value;
     const enteredMessage = messageRef.current?.value;
+
+    notificationCtx.showNotification({
+      title: "Adding contact...",
+      message: "Submitting the new contact",
+      status: "pending",
+    });
 
     fetch("/api/contact", {
       method: "POST",
@@ -22,7 +31,29 @@ const ContactForm: React.FC = () => {
       headers: {
         "Content-Type": "application/json",
       },
-    });
+    })
+      .then((response) => {
+        if (response.ok) {
+          return response.json();
+        }
+        return response.json().then((data) => {
+          throw new Error(data.message || "Something went wrong");
+        });
+      })
+      .then((data) => {
+        notificationCtx.showNotification({
+          title: "Success",
+          message: "Successfully added the new contact",
+          status: "success",
+        });
+      })
+      .catch((error) => {
+        notificationCtx.showNotification({
+          title: "Error",
+          message: error.message || "something went wrong",
+          status: "error",
+        });
+      });
   };
 
   return (
