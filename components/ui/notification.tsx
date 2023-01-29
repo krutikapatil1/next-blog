@@ -25,11 +25,12 @@ const Notification: React.FC<NotificationProps> = (
 
   const cssClasses = `${classes.notification} ${statusClasses}`;
 
-  return (
+  return ReactDOM.createPortal(
     <div className={cssClasses}>
       <h1>{title}</h1>
       <p>{message}</p>
-    </div>
+    </div>,
+    document.getElementById("notification")!
   );
 };
 
