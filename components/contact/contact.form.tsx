@@ -8,6 +8,18 @@ const ContactForm: React.FC = () => {
 
   const notificationCtx = useContext(NotificationContext);
 
+  const resetInputValues = () => {
+    if (emailRef.current) {
+      emailRef.current.value = "";
+    }
+    if (nameRef.current) {
+      nameRef.current.value = "";
+    }
+    if (messageRef.current) {
+      messageRef.current.value = "";
+    }
+  };
+
   const sendMessageHandler = (event: any) => {
     event.preventDefault();
 
@@ -46,6 +58,7 @@ const ContactForm: React.FC = () => {
           message: "Successfully added the new contact",
           status: "success",
         });
+        resetInputValues();
       })
       .catch((error) => {
         notificationCtx.showNotification({

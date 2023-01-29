@@ -33,7 +33,7 @@ export const NotificationContextProvider: React.FC<
     if (activeNotification) {
       const timeout = setTimeout(() => {
         hideNotificationHandler();
-      }, 2000);
+      }, 3000);
 
       return () => {
         clearTimeout(timeout);

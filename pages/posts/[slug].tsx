@@ -1,3 +1,5 @@
+import Head from "next/head";
+import { Fragment } from "react";
 import PostContent from "../../components/posts/post-detail/post-content";
 import { getFileData, getFilesList } from "../../lib/posts-util";
 
@@ -6,7 +8,15 @@ interface PostDetailProps {
 }
 
 const PostDetail: React.FC<PostDetailProps> = (props: PostDetailProps) => {
-  return <PostContent post={props.post} />;
+  return (
+    <Fragment>
+      <Head>
+        <title>{props.post.title}</title>
+        <meta name="description" content={props.post.excerpt} />
+      </Head>
+      <PostContent post={props.post} />
+    </Fragment>
+  );
 };
 
 export const getStaticProps = (context: any) => {
