@@ -30,10 +30,10 @@ const handler = async (req: any, res: any) => {
 
     let client;
 
+    const connectionString = `mongodb+srv://${process.env.mongodb_username}:${process.env.mongodb_password}@${process.env.mongodb_cluster}.h3k9eua.mongodb.net/${process.env.mongodb_site}?retryWrites=true&w=majority`;
+
     try {
-      client = await MongoClient.connect(
-        "mongodb+srv://nextJsPractice:nextJsPractice34@cluster0.h3k9eua.mongodb.net/my-site?retryWrites=true&w=majority"
-      );
+      client = await MongoClient.connect(connectionString);
     } catch (error) {
       res.status(500).json({ message: "Error conneciton to the db" });
       return;

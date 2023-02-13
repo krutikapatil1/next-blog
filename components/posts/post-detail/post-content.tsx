@@ -2,8 +2,11 @@ import PostHeader from "./post-header";
 import classes from "./post-content.module.css";
 import ReactMarkdown from "react-markdown";
 import Image from "next/image";
-import { Light as SyntaxHighlighter } from "react-syntax-highlighter";
-import { darcula } from "react-syntax-highlighter/dist/cjs/styles/prism";
+import { PrismLight as SyntaxHighlighter } from "react-syntax-highlighter";
+import atomDark from "react-syntax-highlighter/dist/cjs/styles/prism/atom-dark";
+import js from "react-syntax-highlighter/dist/cjs/languages/prism/javascript";
+
+SyntaxHighlighter.registerLanguage("js", js);
 
 interface PostContentProps {
   post: any;
@@ -52,7 +55,7 @@ const PostContent: React.FC<PostContentProps> = (props: PostContentProps) => {
     code: (code: any) => {
       const { language, children } = code;
       return (
-        <SyntaxHighlighter style={darcula} language={language}>
+        <SyntaxHighlighter style={atomDark} language={language}>
           {children}
         </SyntaxHighlighter>
       );
