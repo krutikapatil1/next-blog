@@ -13,7 +13,7 @@ const Hero: React.FC = () => {
       <h1>Hi, I am Krutika</h1>
       <p>
         I blog about web development - especially about the frontend frameworks
-        like React and VueJS
+        like NextJs, React, Angular and VueJS
       </p>
     </section>
   );
