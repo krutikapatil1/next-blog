@@ -2,8 +2,8 @@ import PostHeader from "./post-header";
 import classes from "./post-content.module.css";
 import ReactMarkdown from "react-markdown";
 import Image from "next/image";
-import { Prism as SyntaxHighlighter } from "react-syntax-highlighter";
-import { atomDark } from "react-syntax-highlighter/dist/cjs/styles/prism";
+import { Light as SyntaxHighlighter } from "react-syntax-highlighter";
+import { darcula } from "react-syntax-highlighter/dist/cjs/styles/prism";
 
 interface PostContentProps {
   post: any;
@@ -13,28 +13,46 @@ const PostContent: React.FC<PostContentProps> = (props: PostContentProps) => {
   const { post } = props;
   const imagePath = `/images/posts/${post.slug}/${post.image}`;
 
-  const customRederers = {
-    paragraph(paragraph: any) {
+  const MarkdownComponents: object = {
+    p: (paragraph: { children?: boolean; node?: any }) => {
       const { node } = paragraph;
-      if (node.children[0].type === "image") {
+
+      if (node.children[0].tagName === "img") {
         const image = node.children[0];
+        const metastring = image.properties.alt;
+        const alt = metastring?.replace(/ *\{[^)]*\} */g, "");
+        const metaWidth = metastring.match(/{([^}]+)x/);
+        const metaHeight = metastring.match(/x([^}]+)}/);
+        const width = metaWidth ? metaWidth[1] : "768";
+        const height = metaHeight ? metaHeight[1] : "432";
+        const isPriority = metastring?.toLowerCase().match("{priority}");
+        const hasCaption = metastring?.toLowerCase().includes("{caption:");
+        const caption = metastring?.match(/{caption: (.*?)}/)?.pop();
+
         return (
-          <div className={classes.image}>
+          <div className="postImgWrapper">
             <Image
-              src={`/images/posts/${post.slug}/${image.url}`}
-              alt={image.alt}
-              width={600}
-              height={300}
+              src={`/images/posts/${post.slug}/${image.properties.src}`}
+              width={width}
+              height={height}
+              className="postImg"
+              alt={alt}
+              priority={isPriority}
             />
+            {hasCaption ? (
+              <div className="caption" aria-label={caption}>
+                {caption}
+              </div>
+            ) : null}
           </div>
         );
       }
       return <p>{paragraph.children}</p>;
     },
-    code(code: any) {
+    code: (code: any) => {
       const { language, children } = code;
       return (
-        <SyntaxHighlighter language={language} style={atomDark}>
+        <SyntaxHighlighter style={darcula} language={language}>
           {children}
         </SyntaxHighlighter>
       );
@@ -44,7 +62,9 @@ const PostContent: React.FC<PostContentProps> = (props: PostContentProps) => {
   return (
     <article className={classes.content}>
       <PostHeader title={post.title} image={imagePath} />
-      <ReactMarkdown components={customRederers}>{post.content}</ReactMarkdown>
+      <ReactMarkdown components={MarkdownComponents}>
+        {post.content}
+      </ReactMarkdown>
     </article>
   );
 };

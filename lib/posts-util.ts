@@ -26,8 +26,6 @@ export const getFilesList = () => {
 export const getAllPosts = () => {
   const filesList = getFilesList();
 
-  console.log(filesList);
-
   const postDataList = filesList.map((file) => {
     return getFileData(file);
   });

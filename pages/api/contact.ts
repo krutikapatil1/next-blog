@@ -48,7 +48,6 @@ const handler = async (req: any, res: any) => {
     }
 
     client.close();
-    console.log(newMessage);
     res.status(201).json({ message: "New message added", payload: newMessage });
   }
 };
