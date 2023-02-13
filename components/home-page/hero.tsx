@@ -5,10 +5,10 @@ const Hero: React.FC = () => {
     <section className={classes.hero}>
       <Image
         className={classes.image}
-        src="/images/site/Krutika.jpg"
+        src="/images/site/krutika.png"
         alt="Krutika"
-        width={800}
-        height={500}
+        width={300}
+        height={200}
       />
       <h1>Hi, I am Krutika</h1>
       <p>
