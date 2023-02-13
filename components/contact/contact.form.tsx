@@ -29,7 +29,7 @@ const ContactForm: React.FC = () => {
 
     notificationCtx.showNotification({
       title: "Adding contact...",
-      message: "Submitting the new contact",
+      message: "Submitting the new contact!!",
       status: "pending",
     });
 
@@ -49,13 +49,13 @@ const ContactForm: React.FC = () => {
           return response.json();
         }
         return response.json().then((data) => {
-          throw new Error(data.message || "Something went wrong");
+          throw new Error(data.message || "Something went wrong!!");
         });
       })
       .then((data) => {
         notificationCtx.showNotification({
           title: "Success",
-          message: "Successfully added the new contact",
+          message: "Successfully added the new contact!!",
           status: "success",
         });
         resetInputValues();
@@ -63,7 +63,7 @@ const ContactForm: React.FC = () => {
       .catch((error) => {
         notificationCtx.showNotification({
           title: "Error",
-          message: error.message || "something went wrong",
+          message: error.message || "something went wrong!!",
           status: "error",
         });
       });
